@@ -52,8 +52,8 @@ You can also use this for Forms:
   <input type="submit" value="Submit">
 </form> 
 <?php
-$f3->set('filter.POST.firstname', '[A-Za-z]');
-$f3->set('filter.POST.lastname', '[A-Za-z]');
+$f3->set('filter.POST.firstname', '[A-Za-z]+');
+$f3->set('filter.POST.lastname', '[A-Za-z]+');
 ?>
 ```
 
