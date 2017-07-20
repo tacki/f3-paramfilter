@@ -5,7 +5,7 @@ This plugin is build for [Fat-Free Framework](http://www.fatfreeframework.com/).
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [APIBuilder Class methods](#apibuilder-class-methods)
+* [ParamFilter Class methods](#paramfilter-class-methods)
 
 ## Installation
 
