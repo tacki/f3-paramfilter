@@ -44,6 +44,11 @@ class ParamFilter extends Prefab
 
         $filters = $f3->get($this->options['prefix']);
         
+        if(!is_array($filters)) {
+            // No filter found
+            return true;
+        }          
+        
         foreach ($filters as $type=>$data) {
             if (!is_array($data)) {
                 continue;

@@ -5,6 +5,7 @@ This plugin is build for [Fat-Free Framework](http://www.fatfreeframework.com/).
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [Options] (#options)
 * [ParamFilter Class methods](#paramfilter-class-methods)
 
 ## Installation
@@ -63,6 +64,18 @@ if(!\ParamFilter::instance()->checkFilter('POST')) {
     // print an error or redirect or do something else
 }
 ```
+
+## Options
+
+If you want to use another Name than 'filter', maybe because it is already in use,
+you can define it via the Constructor of the ParamFilter-class. So maybe you want
+to use the Name 'paramfilter'
+
+```php
+$paramFilter = new \ParamFilter(['prefix'=>'paramfilter']);
+```
+
+Now you can use [paramfilter.PARAMS] in your .ini or $f3->set('paramfilter...')
 
 ## ParamFilter Class Methods
 ```php
