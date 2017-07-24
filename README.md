@@ -52,14 +52,13 @@ You can also use this for Forms:
   <input type="text" name="lastname" value="Mouse"><br><br>
   <input type="submit" value="Submit">
 </form> 
-<?php
-$f3->set('filter.POST.firstname', '[a-Z]+');
-$f3->set('filter.POST.lastname', '[a-Z]+');
-?>
 ```
 
 And in the /formvalidate-route:
 ```php
+$f3->set('filter.POST.firstname', '[a-Z]+');
+$f3->set('filter.POST.lastname', '[a-Z]+');
+...
 if(!\ParamFilter::instance()->checkFilter('POST')) {            
     // print an error or redirect or do something else
 }
