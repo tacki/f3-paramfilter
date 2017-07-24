@@ -21,7 +21,17 @@ class ParamFilter extends Prefab
     /**
      * @var array
      */
-    protected $options;
+    protected $options = [];
+    
+    /**   
+     * @var array
+     */
+    protected $errors = [];
+    
+    /**   
+     * @var array
+     */
+    protected $debug = [];    
     
     /**
      * Constructor
@@ -29,7 +39,7 @@ class ParamFilter extends Prefab
      */
     public function __construct($options=array())
     {
-        $options['prefix'] = $options['prefix']?:'filter';
+        $options['prefix'] = $options['prefix']?:'filter';       
         
         $this->options = $options;        
     }    
@@ -41,6 +51,7 @@ class ParamFilter extends Prefab
     public function checkAllFilters()
     {
         $f3 = \Base::instance();
+        $result = true;
 
         $filters = $f3->get($this->options['prefix']);
         
@@ -56,12 +67,12 @@ class ParamFilter extends Prefab
             
             foreach (array_keys($data) as $parameter) {
                 if (!$this->checkParam($type, $parameter)) {
-                    return false;
+                    $result = false;
                 }
             }
         }
         
-        return true;
+        return $result;
     }    
     
     /**
@@ -72,6 +83,7 @@ class ParamFilter extends Prefab
     public function checkFilter($type)
     {
         $f3 = \Base::instance();
+        $result = true;        
         
         $data = $f3->get($this->options['prefix'].'.'.$type);        
         
@@ -82,12 +94,39 @@ class ParamFilter extends Prefab
         
         foreach (array_keys($data) as $parameter) {
             if (!$this->checkParam($type, $parameter)) {
-                return false;
+                $result = false;
             }
         }
         
-        return true;        
+        return $result;        
     }  
+    
+    /**
+     * Get last Error
+     * @return array
+     */
+    public function getLastError()
+    {
+        return end($this->errors);
+    }
+    
+    /**
+     * Get all Errors
+     * @return array
+     */
+    public function getAllErrors()
+    {
+        return $this->errors;
+    }
+    
+    /**
+     * Get debuglog of all checks
+     * @return array
+     */
+    public function getDebug()
+    {
+        return $this->debug;
+    }
     
     /**
      * Test the assigned filter on the given parameter
@@ -102,11 +141,23 @@ class ParamFilter extends Prefab
         $filter = $f3->get($this->options['prefix'].'.'.$type.'.'.$parameter);
         $value  = $f3->get($type.'.'.$parameter);
         
-        if ($filter && $value && !preg_match("/^".$filter."$/", $value)) {
-            // Bad Value
-            return false;
-        }        
+        $res =  preg_match("/^".$filter."$/", $value);
         
-        return true;
+        $result = [];
+        $result['type'] = $type;
+        $result['filter'] = "/^".$filter."$/";
+        $result['value'] = $value; 
+        
+        if ($filter && $value && !$res) {            
+            // Bad Value
+            $result['message'] = $res===false?"Invalid Filter":"No Match"; 
+            $this->errors[] = $result;
+            $this->debug[] = $result;
+            return false;
+        } else {
+            $result['message'] = "Match";             
+            $this->debug[] = $result;
+            return true;
+        }                   
     }    
 }

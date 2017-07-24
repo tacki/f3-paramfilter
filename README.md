@@ -23,7 +23,7 @@ If you use .ini-Files for your Routing, the usage is pretty forward as you can s
 GET /@foo=Controller->main
 
 [filter.PARAMS]
-foo="[a-zA-Z]+"
+foo="[a-Z]+"
 ```
 
 We defined a route with a token called 'foo' and also a filter for this token to only allow alphabetic characters.
@@ -53,8 +53,8 @@ You can also use this for Forms:
   <input type="submit" value="Submit">
 </form> 
 <?php
-$f3->set('filter.POST.firstname', '[A-Za-z]+');
-$f3->set('filter.POST.lastname', '[A-Za-z]+');
+$f3->set('filter.POST.firstname', '[a-Z]+');
+$f3->set('filter.POST.lastname', '[a-Z]+');
 ?>
 ```
 
@@ -83,4 +83,10 @@ Now you can use [paramfilter.PARAMS] in your .ini or $f3->set('paramfilter...')
 public function checkAllFilters() : bool;
 // Check a specific Filter (PARAMS,GET,POST,...)
 public function checkFilter($type) : bool;
+// Retrieve the last Error
+public function getLastError() : array;
+// Retrieve all Errors
+public function getAllErrrors() : array;
+// Retrieve debuglog of all checks 
+public function getDebug() : array;
 ```
